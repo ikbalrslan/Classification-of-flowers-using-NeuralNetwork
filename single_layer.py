@@ -6,6 +6,11 @@ def single_layer_network(image_values):
     normalized_images = normalize(image_values)
     #print(normalized_images)
 
+def sigmoid(z):
+    #sigmoid activation function
+    return 1/(1+np.exp(-z))
+
+
 def loss_function():
     print("loss")
 
