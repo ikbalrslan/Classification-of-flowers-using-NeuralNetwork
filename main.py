@@ -4,6 +4,7 @@ from neural_network import Neural_Network
 import numpy as np
 
 
+
 def programWorkStation():
     image_values = read_mat("train.mat")[0]
     normalized_images = normalize(image_values)
@@ -42,14 +43,15 @@ def programWorkStation():
     print("X: ", X)
 
     # defining our output
-    my_outputs = Beauty_Neural_Network.forward(X)
+    #my_outputs = Beauty_Neural_Network.forwardPropagation(X)
 
-    print("\nPredicted Outputs: \n" + str(my_outputs))
+    #print("\nPredicted Outputs: \n" + str(my_outputs))
 
-    soumOfResults = np.apply_along_axis(sum, 1, my_outputs)
-    print("\nsum of Outputs: \n" + str(soumOfResults))
-
+    #soumOfResults = np.apply_along_axis(sum, 1, my_outputs)
+    #print("\nsum of Outputs: \n" + str(soumOfResults))
     print("\nActual Output: \n" + str(expected_outputs))
+
+    print("\nError Array: ", Beauty_Neural_Network.trainModel(X, expected_outputs))
 
 programWorkStation()
 
