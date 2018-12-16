@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acd54bef-5526-4350-b1f6-4f15be8771cd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/read_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_file.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/bbm409_assignment3_b21426611$main.coverage" NAME="main Coverage Results" MODIFIED="1544654464193" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/bbm409_assignment3_b21426611$main.coverage" NAME="main Coverage Results" MODIFIED="1544987158290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1113231468">
@@ -38,48 +40,49 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="6703" />
+          <entry key="py" value="9601" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6703" />
+          <entry key="Python" value="9601" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+            <state relative-caret-position="-180">
+              <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
               <folding>
-                <element signature="e#0#46#0" expanded="true" />
-                <marker date="1544654104223" expanded="true" signature="165:167" ph="..." />
-                <marker date="1544654104223" expanded="true" signature="192:194" ph="..." />
-                <marker date="1544654104223" expanded="true" signature="194:1328" ph="..." />
+                <element signature="e#0#56#0" expanded="true" />
+                <marker date="1544987158208" expanded="true" signature="119:121" ph="..." />
+                <marker date="1544987158208" expanded="true" signature="146:147" ph="..." />
+                <marker date="1544987158208" expanded="true" signature="148:2338" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/neural_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
+            <state relative-caret-position="601">
+              <caret line="95" column="11" selection-start-line="95" selection-start-column="11" selection-end-line="95" selection-end-column="11" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <marker date="1544654464128" expanded="true" signature="149:155" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="2817:2822" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="2904:2905" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="6659:6909" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="7652:7818" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="8625:8630" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="8670:8845" ph="..." />
-                <marker date="1544654464128" expanded="true" signature="8847:8848" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="149:155" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="2860:2865" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="2914:2915" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="7548:7929" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="8565:8853" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="9312:9478" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="10590:10595" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="10635:10810" ph="..." />
+                <marker date="1544987158240" expanded="true" signature="10812:10813" ph="..." />
               </folding>
             </state>
           </provider>
@@ -88,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/single_layer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="44" />
+            <state relative-caret-position="154">
+              <caret line="16" selection-start-line="16" selection-end-line="23" selection-end-column="28" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
                 <marker date="1544050682845" expanded="true" signature="91:92" ph="..." />
@@ -101,12 +104,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/read_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+            <state relative-caret-position="285">
+              <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
               <folding>
                 <element signature="e#31#68#0" expanded="true" />
-                <marker date="1544218280050" expanded="true" signature="114:115" ph="..." />
-                <marker date="1544218280050" expanded="true" signature="449:450" ph="..." />
+                <marker date="1544731408092" expanded="true" signature="114:115" ph="..." />
+                <marker date="1544731408092" expanded="true" signature="449:450" ph="..." />
               </folding>
             </state>
           </provider>
@@ -126,6 +129,9 @@
       <find>cross_entropy_results</find>
       <find>backwardPropagation</find>
       <find>apply_along_axis</find>
+      <find>y</find>
+      <find>softmax_results of total</find>
+      <find>self.step_outputs</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -136,8 +142,8 @@
       <list>
         <option value="$PROJECT_DIR$/single_layer.py" />
         <option value="$PROJECT_DIR$/read_file.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/neural_network.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -148,9 +154,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="704" />
+    <option name="x" value="605" />
     <option name="y" value="-4" />
-    <option name="width" value="662" />
+    <option name="width" value="761" />
     <option name="height" value="772" />
   </component>
   <component name="ProjectView">
@@ -236,12 +242,12 @@
     <frame x="43" y="-4" width="1323" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.040720437" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34937888" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.44875777" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39906833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -268,22 +274,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/read_file.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
-          <folding>
-            <element signature="e#31#68#0" expanded="true" />
-            <marker date="1544218280050" expanded="true" signature="114:115" ph="..." />
-            <marker date="1544218280050" expanded="true" signature="449:450" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/single_layer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="44" />
+        <state relative-caret-position="154">
+          <caret line="16" selection-start-line="16" selection-end-line="23" selection-end-column="28" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
             <marker date="1544050682845" expanded="true" signature="91:92" ph="..." />
@@ -291,33 +285,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/read_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+        <state relative-caret-position="285">
+          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
           <folding>
-            <element signature="e#0#46#0" expanded="true" />
-            <marker date="1544654104223" expanded="true" signature="165:167" ph="..." />
-            <marker date="1544654104223" expanded="true" signature="192:194" ph="..." />
-            <marker date="1544654104223" expanded="true" signature="194:1328" ph="..." />
+            <element signature="e#31#68#0" expanded="true" />
+            <marker date="1544731408092" expanded="true" signature="114:115" ph="..." />
+            <marker date="1544731408092" expanded="true" signature="449:450" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/neural_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
+        <state relative-caret-position="601">
+          <caret line="95" column="11" selection-start-line="95" selection-start-column="11" selection-end-line="95" selection-end-column="11" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <marker date="1544654464128" expanded="true" signature="149:155" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="2817:2822" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="2904:2905" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="6659:6909" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="7652:7818" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="8625:8630" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="8670:8845" ph="..." />
-            <marker date="1544654464128" expanded="true" signature="8847:8848" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="149:155" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="2860:2865" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="2914:2915" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="7548:7929" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="8565:8853" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="9312:9478" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="10590:10595" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="10635:10810" ph="..." />
+            <marker date="1544987158240" expanded="true" signature="10812:10813" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+            <marker date="1544987158208" expanded="true" signature="119:121" ph="..." />
+            <marker date="1544987158208" expanded="true" signature="146:147" ph="..." />
+            <marker date="1544987158208" expanded="true" signature="148:2338" ph="..." />
           </folding>
         </state>
       </provider>

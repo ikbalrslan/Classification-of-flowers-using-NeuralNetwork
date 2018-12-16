@@ -21,3 +21,12 @@ def expectedOutputs(expected_classes):
         expected_output.append(temp)
     expected_output = np.array(expected_output, dtype=float)
     return expected_output
+
+def normalize(image_values):
+    size_of_train_images = len(image_values)
+    #random_array = np.random.uniform(low=0.0, high=1.0, size=(size_of_train_images,size_of_image))
+
+    #print(image_values[size_of_train_images-1])
+    normalized_images = np.divide(image_values, 255)
+    #print(normalized_images[size_of_train_images-1])
+    return normalized_images
