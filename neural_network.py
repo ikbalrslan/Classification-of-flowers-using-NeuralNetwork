@@ -13,8 +13,9 @@ class Neural_Network(object):
         self.weight_name_list = []
         self.bias_name_list = []
         self.bias_dict = {}
-        self.step_outputs = []
         self.hit = 0
+        self.total_loss_value = 0
+
 
         np.random.seed(1) # take the same random variables for each initialized matrix
 
@@ -32,21 +33,21 @@ class Neural_Network(object):
                 if i == 0:
                     self.weight_matrix_dict[weight_matrix_name] = np.random.randn(self.inputSize, self.hiddenSize)
                     #self.W1 = self.weight_matrix_dict[weight_matrix_name]
-                    self.bias_dict[bias_name] = np.zeros((1, self.hiddenSize))
+                    self.bias_dict[bias_name] = np.random.randn(1, self.hiddenSize)
                     #print("biasss:  ",self.bias_dict[bias_name])
                 elif i != (len(self.weight_name_list) - 1):
                     self.weight_matrix_dict[weight_matrix_name] = np.random.randn(self.hiddenSize, self.hiddenSize)
-                    self.bias_dict[bias_name] = np.zeros((1, self.hiddenSize))
+                    self.bias_dict[bias_name] = np.random.randn(1, self.hiddenSize)
                     #print("biasss:  ",self.bias_dict[bias_name])
                 else:
                     self.weight_matrix_dict[weight_matrix_name] = np.random.randn(self.hiddenSize, self.outputSize)
                     #self.W2 = self.weight_matrix_dict[weight_matrix_name]
-                    self.bias_dict[bias_name] = np.zeros((1, self.outputSize))
+                    self.bias_dict[bias_name] = np.random.randn(1, self.outputSize)
                     #print("biasss:  ",self.bias_dict[bias_name])
             else: # if there is no hidden layer. This means that this is a single layer
                 self.weight_matrix_dict[weight_matrix_name] = np.random.randn(self.inputSize, self.outputSize)
                 # self.W1 = self.weight_matrix_dict[weight_matrix_name]
-                self.bias_dict[bias_name] = np.zeros((1, self.outputSize))
+                self.bias_dict[bias_name] = np.random.randn(1, self.outputSize)
                 # print("biasss:  ",self.bias_dict[bias_name])
         """
         for weight_matrix_name in self.weight_name_list:
@@ -56,8 +57,10 @@ class Neural_Network(object):
         """
 
     def forwardPropagation(self, X, expectedOutputs):
+        self.step_outputs = []
         self.z_result = 0
         self.a_result = 0
+        self.step_outputs.append(X)
         # for each matrix in matrix dictionary, iterate forward propagation
         weight_list_size = len(self.weight_name_list)
         for i in range(weight_list_size):
@@ -67,22 +70,26 @@ class Neural_Network(object):
             #single layer neural network
             if weight_list_size == 1: # use softmax as activation function for output
                 self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
-                self.step_outputs.append(self.z_result)
+                #self.step_outputs.append(self.z_result)
+                self.a_result = self.sigmoid(self.z_result)  # activation function
+                self.step_outputs.append(self.a_result)
             #multilayer neural network
             else:
                 if wName == "W1":
                     self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName] # forward propagation
-                    self.step_outputs.append(self.z_result)
+                    #self.step_outputs.append(self.z_result)
                     self.a_result = self.sigmoid(self.z_result)  # activation function
                     self.step_outputs.append(self.a_result)
 
                 elif i == (weight_list_size - 1): # use softmax as activation function for output
                     self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
                     #self.step_outputs.append(self.z_result)
+                    self.a_result = self.sigmoid(self.z_result)  # activation function
+                    self.step_outputs.append(self.a_result)
 
                 else:
                     self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName] # forward propagation
-                    self.step_outputs.append(self.z_result)
+                    #self.step_outputs.append(self.z_result)
                     self.a_result = self.sigmoid(self.z_result)  # activation function
                     self.step_outputs.append(self.a_result)
 
@@ -95,37 +102,59 @@ class Neural_Network(object):
             print("\nstep output =>",i, self.step_outputs[i])
         """
         self.total_loss(softmax_results, expectedOutputs)
+        #print("\nweight list size: ",len(self.weight_matrix_dict), "\nstep output size: ", len(self.step_outputs) )
         return softmax_results
 
     # backward propagate through the network
     def backwardPropagation(self, inputs, predicted_outputs, expectedOutputs, learning_rate, batch_size):
+        decay_parameter = 1
         #print("\nbackprobagation: ")
-        self.output_error = expectedOutputs - predicted_outputs # error in outputs
+        self.output_error = expectedOutputs - predicted_outputs # error in outputs (applying derivative of softmax and cross entropy to error)
         weight_list_size = len(self.weight_name_list)
+        learning_rate = learning_rate / decay_parameter
+        self.output_delta = self.output_error * self.derivate_the_sigmoid(self.step_outputs[-1])
+
+        #print("weight size: ", len(self.weight_matrix_dict), " step output size: ", len(self.step_outputs))
+
+
         for i in range(weight_list_size - 1, -1, -1):
             wName = self.weight_name_list[i]
             bName = self.bias_name_list[i]
 
             #single layer neural network
             if weight_list_size == 1: # use softmax as activation function for output
-                self.output_delta = self.output_error  # applying derivative of cross-entropy and softmax to error
-                #print("output delta: ", self.output_delta)
-                #print("bias: ",i,"-->",self.bias_dict[bName])
                 #print("önce: ",self.weight_matrix_dict[wName])
                 self.weight_matrix_dict[wName] += learning_rate * inputs.T.dot(self.output_delta)  # adjusting first set (input --> output layer) weights
                 #print("sonra: ", self.weight_matrix_dict[wName])
-                #self.bias_dict[bName] += self.output_delta
+                self.output_delta = np.sum(self.output_delta, axis=0)
+                self.bias_dict[bName] += self.output_delta / batch_size
                 #print("bias: ",self.bias_dict[bName])
-            """
             else:
-                self.output_delta = self.output_error * self.derivate_the_sigmoid(predicted_outputs)  # applying derivative of sigmoid to error
+                if wName == "W1":
+                    self.weight_matrix_dict[wName] += learning_rate * inputs.T.dot(self.zLast_delta)
+                    self.zLast_delta = np.sum(self.zLast_delta, axis=0)
+                    self.bias_dict[bName] += self.zLast_delta / batch_size
+                elif i == (weight_list_size - 1):
+                    self.zLast_error = self.output_delta.dot(self.weight_matrix_dict[wName].T)  # z2 error: how much our hidden layer weights contributed to output error
+                    self.zLast_delta = self.zLast_error * self.derivate_the_sigmoid(self.step_outputs[i])  # applying derivative of sigmoid to z2 error
 
-                self.z2_error = self.output_delta.dot(self.W2.T)  # z2 error: how much our hidden layer weights contributed to output error
-                self.z2_delta = self.z2_error * self.derivate_the_sigmoid(self.z2)  # applying derivative of sigmoid to z2 error
+                    self.weight_matrix_dict[wName] += learning_rate * self.step_outputs[i].T.dot(self.output_delta)
+                    self.output_delta = np.sum(self.output_delta, axis=0)
+                    self.bias_dict[bName] += self.output_delta / batch_size
 
-                self.W1 += inputs.T.dot(self.z2_delta)  # adjusting first set (input --> hidden) weights
-                self.W2 += self.z2.T.dot(self.output_delta)  # adjusting second set (hidden --> output) weights
-            """
+                else:
+                    self.temp_delta = self.zLast_delta
+                    # z2_delta comes from previous layer and updated with current layer
+                    self.zLast_error = self.zLast_delta.dot(self.weight_matrix_dict[wName].T)  # z2 error: how much our hidden layer weights contributed to output error
+                    self.zLast_delta = self.zLast_error * self.derivate_the_sigmoid(self.step_outputs[i])  # applying derivative of sigmoid to z2 error
+
+                    self.weight_matrix_dict[wName] += learning_rate * self.step_outputs[i].T.dot(self.temp_delta)
+                    self.temp_delta = np.sum(self.temp_delta, axis=0)
+                    self.bias_dict[bName] += self.temp_delta / batch_size
+
+
+
+
 
     def trainModel(self, inputs, expectedOutputs, learning_rate, batch_size):
         predicted_outputs = self.forwardPropagation(inputs,expectedOutputs)
@@ -183,7 +212,7 @@ class Neural_Network(object):
             loss_sum += i
 
         #self.total_loss_value = sum(loss_sum) / size_of_errors
-        self.total_loss_value = sum(loss_sum)
+        self.total_loss_value += sum(loss_sum)
         #print("\nLoss: \n", self.total_loss_value)
 
     # E = – ∑ ci . log(pi) + (1 – ci ). log(1 – pi)
@@ -207,7 +236,8 @@ class Neural_Network(object):
                 errorSum += log_result
             result = - errorSum
             mean_of_errors = result / output_node_number
-            error_list.append(mean_of_errors)
+            #error_list.append(mean_of_errors)
+            error_list.append(result)
         err_matrix.append(error_list)
         err_matrix = np.asarray(err_matrix)
         return err_matrix

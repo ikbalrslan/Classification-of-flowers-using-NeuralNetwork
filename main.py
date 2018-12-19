@@ -16,11 +16,11 @@ def programWorkStation():
     size_of_one_image = len(normalized_images[0])
     size_of_input = size_of_one_image
     hidden_node_number = 100
-    hidden_layer_number = 0
+    hidden_layer_number = 2
     size_of_output = 5
-    learning_rate = 0.004
-    epoch_size = 100
-    batch_size = 16
+    learning_rate = 0.02
+    epoch_size = 1000
+    batch_size = 100
 
     Beauty_Neural_Network = Neural_Network(size_of_input, hidden_node_number, size_of_output, hidden_layer_number)
     #Beauty_Neural_Network.trainModel(X, expected_outputs, learning_rate)
@@ -67,7 +67,6 @@ def programWorkStation():
     Beauty_Neural_Network.trainModel(X, y)
    
     """
-
 
 programWorkStation()
 
