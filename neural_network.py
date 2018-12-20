@@ -67,31 +67,32 @@ class Neural_Network(object):
             wName = self.weight_name_list[i]
             bName = self.bias_name_list[i]
 
-            #single layer neural network
-            if weight_list_size == 1: # use softmax as activation function for output
-                self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
-                #self.step_outputs.append(self.z_result)
+            if wName == "W1":
+                # this control for detecting single layer neural network
+                if (weight_list_size) == 1:
+                    self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
+                    self.step_outputs.append(self.z_result)
+                    #self.a_result = self.sigmoid(self.z_result)  # activation function
+                    #self.step_outputs.append(self.a_result)
+                # else multi layer
+                else:
+                    self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
+                    # self.step_outputs.append(self.z_result)
+                    self.a_result = self.sigmoid(self.z_result)  # activation function
+                    self.step_outputs.append(self.a_result)
+            # else multi layer
+            elif i == (weight_list_size-1):
+                self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
+                self.step_outputs.append(self.z_result)
+                #self.a_result = self.sigmoid(self.z_result)  # activation function
+                #self.step_outputs.append(self.a_result)
+            # else multi layer
+            else:
+                self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
+                # self.step_outputs.append(self.z_result)
                 self.a_result = self.sigmoid(self.z_result)  # activation function
                 self.step_outputs.append(self.a_result)
-            #multilayer neural network
-            else:
-                if wName == "W1":
-                    self.z_result = np.dot(X, self.weight_matrix_dict[wName]) + self.bias_dict[bName] # forward propagation
-                    #self.step_outputs.append(self.z_result)
-                    self.a_result = self.sigmoid(self.z_result)  # activation function
-                    self.step_outputs.append(self.a_result)
 
-                elif i == (weight_list_size - 1): # use softmax as activation function for output
-                    self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName]  # forward propagation
-                    #self.step_outputs.append(self.z_result)
-                    self.a_result = self.sigmoid(self.z_result)  # activation function
-                    self.step_outputs.append(self.a_result)
-
-                else:
-                    self.z_result = np.dot(self.a_result, self.weight_matrix_dict[wName]) + self.bias_dict[bName] # forward propagation
-                    #self.step_outputs.append(self.z_result)
-                    self.a_result = self.sigmoid(self.z_result)  # activation function
-                    self.step_outputs.append(self.a_result)
 
         # call softmax function for each row of output 2-d numpy array(for each image actually)
         softmax_results = self.softmax(self.z_result)
@@ -112,45 +113,41 @@ class Neural_Network(object):
         self.output_error = expectedOutputs - predicted_outputs # error in outputs (applying derivative of softmax and cross entropy to error)
         weight_list_size = len(self.weight_name_list)
         learning_rate = learning_rate / decay_parameter
-        self.output_delta = self.output_error * self.derivate_the_sigmoid(self.step_outputs[-1])
+        #self.last_delta = self.output_error * self.derivate_the_sigmoid(self.step_outputs[-1])
+        self.last_delta = self.output_error
+
 
         #print("weight size: ", len(self.weight_matrix_dict), " step output size: ", len(self.step_outputs))
-
 
         for i in range(weight_list_size - 1, -1, -1):
             wName = self.weight_name_list[i]
             bName = self.bias_name_list[i]
 
-            #single layer neural network
-            if weight_list_size == 1: # use softmax as activation function for output
-                #print("önce: ",self.weight_matrix_dict[wName])
-                self.weight_matrix_dict[wName] += learning_rate * inputs.T.dot(self.output_delta)  # adjusting first set (input --> output layer) weights
-                #print("sonra: ", self.weight_matrix_dict[wName])
-                self.output_delta = np.sum(self.output_delta, axis=0)
-                self.bias_dict[bName] += self.output_delta / batch_size
-                #print("bias: ",self.bias_dict[bName])
+            #this control for detecting single layer neural network
+            if (weight_list_size) == 1:
+                # print("last delta second: ", self.last_delta)
+                self.temp_update = self.step_outputs[i].T.dot(self.last_delta)  # adjusting first set (input --> output layer) weights
+                self.weight_matrix_dict[wName] += learning_rate * self.temp_update
+                self.bias_dict[bName] += np.sum(self.last_delta, axis=0) / batch_size
+
+            #else multi layer
             else:
-                if wName == "W1":
-                    self.weight_matrix_dict[wName] += learning_rate * inputs.T.dot(self.zLast_delta)
-                    self.zLast_delta = np.sum(self.zLast_delta, axis=0)
-                    self.bias_dict[bName] += self.zLast_delta / batch_size
-                elif i == (weight_list_size - 1):
-                    self.zLast_error = self.output_delta.dot(self.weight_matrix_dict[wName].T)  # z2 error: how much our hidden layer weights contributed to output error
-                    self.zLast_delta = self.zLast_error * self.derivate_the_sigmoid(self.step_outputs[i])  # applying derivative of sigmoid to z2 error
+                self.bias_dict[bName] += np.sum(self.last_delta, axis=0) / batch_size
+                #print("last delta second: ", self.last_delta)
+                self.temp_update = self.step_outputs[i].T.dot(self.last_delta)  # adjusting first set (input --> output layer) weights
 
-                    self.weight_matrix_dict[wName] += learning_rate * self.step_outputs[i].T.dot(self.output_delta)
-                    self.output_delta = np.sum(self.output_delta, axis=0)
-                    self.bias_dict[bName] += self.output_delta / batch_size
+                self.zLast_error = self.last_delta.dot(self.weight_matrix_dict[wName].T)  # z2 error: how much our hidden layer weights contributed to output error
+                self.last_delta = self.zLast_error * self.derivate_the_sigmoid(self.step_outputs[i])  # applying derivative of sigmoid to z2 error
+                #print("last delta first: ", self.last_delta)
 
-                else:
-                    self.temp_delta = self.zLast_delta
-                    # z2_delta comes from previous layer and updated with current layer
-                    self.zLast_error = self.zLast_delta.dot(self.weight_matrix_dict[wName].T)  # z2 error: how much our hidden layer weights contributed to output error
-                    self.zLast_delta = self.zLast_error * self.derivate_the_sigmoid(self.step_outputs[i])  # applying derivative of sigmoid to z2 error
+                self.weight_matrix_dict[wName] += learning_rate * self.temp_update
 
-                    self.weight_matrix_dict[wName] += learning_rate * self.step_outputs[i].T.dot(self.temp_delta)
-                    self.temp_delta = np.sum(self.temp_delta, axis=0)
-                    self.bias_dict[bName] += self.temp_delta / batch_size
+                #self.temp_bias = self.last_delta.copy()
+                #self.temp_bias = np.sum(self.temp_bias, axis=0)
+                #self.bias_dict[bName] += self.temp_bias / batch_size
+                # print("bias: ",self.bias_dict[bName])
+
+
 
 
 
