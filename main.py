@@ -10,6 +10,13 @@ be changed dynamically. I write the code dynamically, so neural network creates 
 while using the same function with given parameters.  
 """
 def epochProcess(epoch_size, batch_size, learning_rate,  NN, size_den_inp, deneme_input, deneme_expected):
+    validation_image_values = read_mat("validation.mat")[0] # images
+    normalized_images_validation = normalize(validation_image_values)  # normalized images
+    expected_classes_validation = read_mat("validation.mat")[1]  # expected flower types
+    expected_outputs_validation = expectedOutputs(expected_classes_validation)  # flatten outputs
+    X_validation = normalized_images_validation  # normalized input images
+    size_of_validation = len(X_validation)
+
     for i in range(epoch_size):
         print("\nepoch",i+1,"-->")
         NN.hit = 0
@@ -17,17 +24,22 @@ def epochProcess(epoch_size, batch_size, learning_rate,  NN, size_den_inp, denem
         for j in range(0, size_den_inp, batch_size):
             batch_input =  deneme_input[j:j + batch_size]
             batch_expect = deneme_expected[j:j + batch_size]
-            #print("input: ", batch_input[-1].reshape(1,-1).shape)
-            #print("expect: ", batch_expect)
             hit = NN.trainModel(batch_input, batch_expect, learning_rate, batch_size)
 
-            # Save to file in the current working directory
-            pkl_file = "model.pkl"
-            with open(pkl_file, 'wb') as file:
-                pickle.dump(NN, file)
+        # Save to file in the current working directory
+        pkl_file = "model.pkl"
+        with open(pkl_file, 'wb') as file:
+            pickle.dump(NN, file, pickle.HIGHEST_PROTOCOL)
+        print("train hit: ", NN.hit, ", Accuracy: ", NN.hit / size_den_inp * 100)
+        print("train loss: ", NN.total_loss_value)
 
-        print("hit: ", hit, ", Accuracy: ",hit / 3000 * 100)
-        print("loss: ", NN.total_loss_value)
+        # print("validation size: ", size_of_validation)
+        predicted_outputs_validation = NN.forwardPropagation(X_validation, expected_outputs_validation)
+        valid_hit = NN.hit_count(predicted_outputs_validation, expected_outputs_validation)
+        print("\nvalidation hit: ", valid_hit, "accuracy: ", valid_hit / size_of_validation * 100)
+
+
+
 """
 programWorkStation is the baseline of the assignment. Calls specific functions.
 """
@@ -36,19 +48,17 @@ def programWorkStation():
     image_values = read_mat("train.mat")[0] # images
     normalized_images = normalize(image_values) # normalized images
     expected_classes = read_mat("train.mat")[1] # expected flower types
-
     expected_outputs = expectedOutputs(expected_classes) # flatten outputs
     X = normalized_images #normalized input images
-
     size_of_one_image = len(normalized_images[0])
     size_of_input = size_of_one_image
 
     # parameters of neural network
     hidden_node_number = 100
-    hidden_layer_number = 0
+    hidden_layer_number = 1
     size_of_output = 5
     learning_rate = 0.005
-    epoch_size = 500
+    epoch_size = 28
     batch_size = 20
 
     # neural network object is created here.
