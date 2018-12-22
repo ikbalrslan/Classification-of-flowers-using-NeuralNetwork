@@ -2,6 +2,32 @@ from read_file import read_mat,expectedOutputs,normalize
 from neural_network import Neural_Network
 import pickle
 import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use('seaborn-whitegrid')
+
+"""
+This function stands for drawing plots of the model accuracy or loss values
+"""
+def plot(pkl_name_create, train_accuracy_list, validation_accuracy_list, epoch_list):
+
+    x1 = train_accuracy_list
+    x2 = validation_accuracy_list
+
+    plt.plot(epoch_list, x1, color='green')
+    plt.plot(epoch_list, x2, color='orange')
+
+    plt.legend(['train', 'validation'], loc='upper right')
+
+    plt.title("Optimum Train and Validation Accuracy with 2 Hidden Layer")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy");
+
+    figure_name = "Optimum_Train_and_Validation_Accuracy_with_2_Hidden_Layer" + ".png"
+
+    plt.savefig(figure_name)
+    plt.show()
+
+
 
 """
 epochProcess takes some parameters such as epoch size, batch size, learning rate, neural network etc.
@@ -16,7 +42,10 @@ def epochProcess(epoch_size, batch_size, learning_rate,  NN, size_den_inp, denem
     expected_outputs_validation = expectedOutputs(expected_classes_validation)  # flatten outputs
     X_validation = normalized_images_validation  # normalized input images
     size_of_validation = len(X_validation)
-
+    loss_error_list = []
+    epoch_list = []
+    train_accuracy_list = []
+    validation_accuracy_list = []
     for i in range(epoch_size):
         print("\nepoch",i+1,"-->")
         NN.hit = 0
@@ -26,19 +55,29 @@ def epochProcess(epoch_size, batch_size, learning_rate,  NN, size_den_inp, denem
             batch_expect = deneme_expected[j:j + batch_size]
             hit = NN.trainModel(batch_input, batch_expect, learning_rate, batch_size)
 
-        # Save to file in the current working directory
-        pkl_file = "model.pkl"
-        with open(pkl_file, 'wb') as file:
-            pickle.dump(NN, file, pickle.HIGHEST_PROTOCOL)
         print("train hit: ", NN.hit, ", Accuracy: ", NN.hit / size_den_inp * 100)
-        print("train loss: ", NN.total_loss_value)
+        train_accuracy_list.append(NN.hit / size_den_inp * 100)
+        print("train loss: ", NN.total_loss_value )
+        loss_error_list.append(NN.total_loss_value )
+        epoch_list.append(i)
 
         # print("validation size: ", size_of_validation)
         predicted_outputs_validation = NN.forwardPropagation(X_validation, expected_outputs_validation)
         valid_hit = NN.hit_count(predicted_outputs_validation, expected_outputs_validation)
         print("\nvalidation hit: ", valid_hit, "accuracy: ", valid_hit / size_of_validation * 100)
+        validation_accuracy_list.append(valid_hit / size_of_validation * 100)
 
+    loss_error_list = np.asarray(loss_error_list)
+    print("number of layer: ", NN.numberOfHidden, "layer size: ", NN.hiddenSize, "learning rate: ", learning_rate,
+          "batch size: ", batch_size)
+    pkl_name_create = str(NN.numberOfHidden) + "_" + str(NN.hiddenSize) + "_" + str(learning_rate) + "_" + str(batch_size)
+    pkl_name_create += "_" + str(epoch_size)
+    # Save to file in the current working directory
+    pkl_file = pkl_name_create + ".pkl"
+    with open(pkl_file, 'wb') as file:
+        pickle.dump(NN, file, pickle.HIGHEST_PROTOCOL)
 
+    #plot(pkl_name_create, train_accuracy_list, validation_accuracy_list, epoch_list)
 
 """
 programWorkStation is the baseline of the assignment. Calls specific functions.
@@ -55,10 +94,10 @@ def programWorkStation():
 
     # parameters of neural network
     hidden_node_number = 100
-    hidden_layer_number = 1
+    hidden_layer_number = 2
     size_of_output = 5
     learning_rate = 0.005
-    epoch_size = 28
+    epoch_size = 300
     batch_size = 20
 
     # neural network object is created here.

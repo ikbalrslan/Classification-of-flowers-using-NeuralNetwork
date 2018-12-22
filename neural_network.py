@@ -233,8 +233,8 @@ class Neural_Network(object):
                 errorSum += log_result
             result = - errorSum
             mean_of_errors = result / output_node_number
-            #error_list.append(mean_of_errors)
-            error_list.append(result)
+            error_list.append(mean_of_errors)
+            #error_list.append(result)
         err_matrix.append(error_list)
         err_matrix = np.asarray(err_matrix)
         return err_matrix
